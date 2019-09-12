@@ -3,8 +3,6 @@ import cv2 as cv
 import base64
 import argparse
 
-count = 0
-
 def detectAndDisplay(frame):
     frame_gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
     frame_gray = cv.equalizeHist(frame_gray)
@@ -16,15 +14,12 @@ def detectAndDisplay(frame):
     #     # frame = cv.ellipse(frame, center, (w//2, h//2), 0, 0, 360, (255, 0, 255), 4)
     #     faceROI = frame_gray[y:y+h,x:x+w]
 
-    #     # cv.imencode('.jpg', frame)
-    #     # image_64_encode = base64.encodestring(image_read)
-
-    #     #-- In each face, detect eyes
-    #     eyes = eyes_cascade.detectMultiScale(faceROI)
-    #     for (x2,y2,w2,h2) in eyes:
-    #         eye_center = (x + x2 + w2//2, y + y2 + h2//2)
-    #         radius = int(round((w2 + h2)*0.25))
-    # frame = cv.circle(frame, eye_center, radius, (255, 0, 0 ), 4)
+        #-- In each face, detect eyes
+        # eyes = eyes_cascade.detectMultiScale(faceROI)
+        # for (x2,y2,w2,h2) in eyes:
+        #     eye_center = (x + x2 + w2//2, y + y2 + h2//2)
+        #     radius = int(round((w2 + h2)*0.25))
+        #     frame = cv.circle(frame, eye_center, radius, (255, 0, 0 ), 4)
     
     # cv.imshow('Capture - Face detection', frame) # <- Não é necessário
 
@@ -33,7 +28,7 @@ def detectAndDisplay(frame):
         b64 = base64.b64encode(buf.tostring())
         return b64.decode('utf-8')
     else:
-        return False
+        return None
 
 
     
@@ -66,12 +61,15 @@ if not cap.isOpened:
     exit(0)
 while True:
     ret, frame = cap.read()
+    
     if frame is None:
         print('--(!) No captured frame -- Break!')
         break
+
     b64_img = detectAndDisplay(frame)
-    if b64_img and count < 1:
-        count += 1
+
+    if b64_img is not None:
         print(b64_img)
+
     if cv.waitKey(10) == 27:
         break
