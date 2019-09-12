@@ -72,17 +72,6 @@ while True:
     b64_img = detectAndDisplay(frame)
     if b64_img and count < 1:
         count += 1
-        # from matplotlib import pyplot as plt
-        # import matplotlib.image as mpimg
-        # import io
-
-        # i = base64.b64decode(result)
-        # i = io.BytesIO(i)
-        # i = mpimg.imread(i, format='JPG')
-
-        # plt.imshow(i, interpolation='nearest')
-        # plt.show()
-
         print(b64_img)
     if cv.waitKey(10) == 27:
         break
